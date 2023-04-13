@@ -1,5 +1,9 @@
-import { Heading } from "@chakra-ui/react"
+import { Container, Heading } from "@chakra-ui/react"
 
 export const Home = () => {
-  return <Heading>XRPL Demo</Heading>
+  return (
+    <Container>
+      <Heading textAlign="center">XRPL Demo</Heading>
+    </Container>
+  )
 }
