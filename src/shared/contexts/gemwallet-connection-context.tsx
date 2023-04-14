@@ -8,7 +8,7 @@ import {
 
 // export const GemWalletContext = createContext<GemWalletProviderContext | undefined>(undefined)
 
-const [GemWalletContext, useXGemWalletContext] = contextFactory<GemWalletProviderContext>({
+const [GemWalletContext, useGemWalletContext] = contextFactory<GemWalletProviderContext>({
   hook: "useGemWalletContext",
   provider: "GemWalletProviderContext",
 })
@@ -17,9 +17,22 @@ export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
   const [hasGemWallet, setHasGemWallet] = useState(false)
 
   useEffect(() => {
-    isConnected().then((isConnected) => {
-      setHasGemWallet(isConnected)
-    })
+    let timesRun = 0
+    const interval = setInterval(() => {
+      timesRun += 1
+      if (timesRun === 5 || hasGemWallet) {
+        clearInterval(interval)
+      }
+      isConnected()
+        .then((response) => {
+          setHasGemWallet(response)
+        })
+        .catch((err) => console.error(err))
+    }, 1000)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
 
   const api: GemWalletProviderContext = {
@@ -29,4 +42,4 @@ export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
   return <GemWalletContext.Provider value={api}>{children}</GemWalletContext.Provider>
 }
 
-export { GemWalletContext, useXGemWalletContext }
+export { GemWalletContext, useGemWalletContext }

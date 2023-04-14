@@ -1,10 +1,13 @@
 import { BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "../pages/routes"
+import { GemWalletProvider } from "../shared/contexts"
 
 export function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <GemWalletProvider>
+        <AppRoutes />
+      </GemWalletProvider>
     </BrowserRouter>
   )
 }

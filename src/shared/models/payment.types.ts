@@ -1,10 +1,14 @@
-export type Payment = {
+import { z } from "zod"
+
+export const paymentSchema = z.object({
   // The amount of currency to deliver
-  amount: string
+  amount: z.string(),
   // The unique address of the account receiving the payment
-  destination: string
+  destination: z.string(),
   // The token that can be used
-  currency?: string
+  currency: z.string().optional(),
   // The issuer of the token
-  issuer?: string
-}
+  issuer: z.string().optional(),
+})
+
+export type PaymentTxn = z.infer<typeof paymentSchema>

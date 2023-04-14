@@ -30,7 +30,7 @@ export const WalletNavigation = () => {
       <nav>
         {LINKS.map((link) => {
           return (
-            <WalletNavLink css={{ display: "flex", gap: 10 }} to={link.path}>
+            <WalletNavLink key={link.path} css={{ display: "flex", gap: 10 }} to={link.path}>
               {link.icon && link.icon} {link.name}
             </WalletNavLink>
           )
