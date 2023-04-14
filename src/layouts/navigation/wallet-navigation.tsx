@@ -1,7 +1,9 @@
-import { chakra, Icon, Image } from "@chakra-ui/react"
+import { chakra, Icon, Image, VStack } from "@chakra-ui/react"
 import { AiOutlineHome } from "react-icons/ai"
 import { MdOutlinePayments } from "react-icons/md"
+import GemWallet from "../../images/gemwallet.svg"
 import XRPLogo from "../../images/xrp-logo.png"
+import { ConnectionDetails } from "./connection-details"
 import { WalletLink } from "./wallet-navigation.types"
 import { WalletNavLink } from "./wallet-navlink"
 
@@ -26,7 +28,11 @@ const LINKS: WalletLink[] = [
 export const WalletNavigation = () => {
   return (
     <SideNav>
-      <Image src={XRPLogo} />
+      <VStack mb={10}>
+        <Image src={XRPLogo} />
+        <Image boxSize={100} src={GemWallet} />
+      </VStack>
+      <ConnectionDetails sx={{ justifyContent: "center", mb: 5 }} />
       <nav>
         {LINKS.map((link) => {
           return (

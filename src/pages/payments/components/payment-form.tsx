@@ -11,7 +11,7 @@ export const PaymentForm = () => {
     <>
       <FormControl>
         <FormLabel>Amount</FormLabel>
-        <Input {...register("amount")} maxW={MAX_W} />
+        <Input {...register("amount")} maxW={MAX_W} type="number" />
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
       <FormControl>
