@@ -6,8 +6,6 @@ import {
   GemWalletProviderProps,
 } from "./gemwallet-connection-context.types"
 
-// export const GemWalletContext = createContext<GemWalletProviderContext | undefined>(undefined)
-
 const [GemWalletContext, useGemWalletContext] = contextFactory<GemWalletProviderContext>({
   hook: "useGemWalletContext",
   provider: "GemWalletProviderContext",
@@ -15,6 +13,7 @@ const [GemWalletContext, useGemWalletContext] = contextFactory<GemWalletProvider
 
 export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
   const [hasGemWallet, setHasGemWallet] = useState(false)
+  const [network, setNetwork] = useState("")
 
   useEffect(() => {
     let timesRun = 0
@@ -26,6 +25,10 @@ export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
       isConnected()
         .then((response) => {
           setHasGemWallet(response)
+          // bug
+          // getNetwork()
+          //   .then((resp) => setNetwork(resp))
+          //   .catch((err) => console.error(`Can't load GemWallet network, ${err}`))
         })
         .catch((err) => console.error(err))
     }, 1000)
@@ -37,6 +40,7 @@ export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
 
   const api: GemWalletProviderContext = {
     isConnected: hasGemWallet,
+    network,
   }
 
   return <GemWalletContext.Provider value={api}>{children}</GemWalletContext.Provider>

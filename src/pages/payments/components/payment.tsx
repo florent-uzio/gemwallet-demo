@@ -1,7 +1,24 @@
-import { Button, Heading, Stack, VStack } from "@chakra-ui/react"
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Heading,
+  Link,
+  ListItem,
+  Stack,
+  Text,
+  UnorderedList,
+  VStack,
+} from "@chakra-ui/react"
 import { sendPayment } from "@gemwallet/api"
+import { useState } from "react"
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form"
 import { PaymentTxn } from "../../../shared/models"
+import { CodeExample } from "./code-example"
 import { PaymentForm } from "./payment-form"
 
 export const Payment = () => {
@@ -11,14 +28,17 @@ export const Payment = () => {
     },
   })
 
+  const [txns, setTxns] = useState<string[]>([])
+
   const submitHandler: SubmitHandler<PaymentTxn> = (values) => {
     sendPayment(values).then((trHash) => {
-      console.log("Transaction Hash: ", trHash)
+      if (!trHash) return
+      setTxns((current) => current.concat(trHash))
     })
   }
 
   return (
-    <Stack gap={2}>
+    <Stack gap={5}>
       <Heading as="h3" size="xs">
         Create a payment
       </Heading>
@@ -34,6 +54,48 @@ export const Payment = () => {
           </VStack>
         </form>
       </FormProvider>
+
+      <Heading as="h3" size="xs">
+        Transactions
+      </Heading>
+
+      <UnorderedList>
+        {txns.length ? (
+          txns.map((txn) => {
+            return (
+              <ListItem>
+                <Link href={`https://test.bithomp.com/explorer/${txn}`} isExternal={true}>
+                  {txn}
+                </Link>
+              </ListItem>
+            )
+          })
+        ) : (
+          <Text>No transaction found.</Text>
+        )}
+      </UnorderedList>
+
+      <Heading as="h3" size="xs">
+        Code
+      </Heading>
+
+      <Accordion allowToggle>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                Show Code
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel>
+            <Box border="1px solid black">
+              <CodeExample />
+            </Box>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </Stack>
   )
 }
