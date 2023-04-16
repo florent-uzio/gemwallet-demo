@@ -63,7 +63,7 @@ export const Payment = () => {
         {txns.length ? (
           txns.map((txn) => {
             return (
-              <ListItem>
+              <ListItem key={txn}>
                 <Link href={`https://test.bithomp.com/explorer/${txn}`} isExternal={true}>
                   {txn}
                 </Link>
