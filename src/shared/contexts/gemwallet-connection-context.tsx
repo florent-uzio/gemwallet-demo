@@ -1,4 +1,4 @@
-import { isConnected } from "@gemwallet/api"
+import { getNetwork, isConnected } from "@gemwallet/api"
 import { useEffect, useState } from "react"
 import { contextFactory } from "../helpers"
 import {
@@ -24,11 +24,15 @@ export const GemWalletProvider = ({ children }: GemWalletProviderProps) => {
       }
       isConnected()
         .then((response) => {
+          console.log('isConnected', response);
           setHasGemWallet(response)
           // bug
-          // getNetwork()
-          //   .then((resp) => setNetwork(resp))
-          //   .catch((err) => console.error(`Can't load GemWallet network, ${err}`))
+          getNetwork()
+            .then((resp: any) => {
+              console.log('getNetwork', resp);
+              setNetwork(resp)
+            })
+            .catch((err) => console.error(`Can't load GemWallet network, ${err}`))
         })
         .catch((err) => console.error(err))
     }, 1000)
